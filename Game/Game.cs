@@ -10,7 +10,7 @@ static class Game
     public static void Start()
     {
         TimerController.AddTimer(1, SetRandomColor);
-        //triangleVAO = GenerateTriangleVAO();
+        triangleVAO = GenerateTriangleVAO();
         squareVAO = GenerateSquareVAO();
         SetBackgroundColor();
         SetRandomColor();
@@ -19,10 +19,10 @@ static class Game
     private static VAO GenerateSquareVAO()
     {
         var vertices = new[] {           
-             new Vertex(1.0f, -1.0f, 0.0f),
-             new Vertex(1.0f, 1.0f, 0.0f),             
-             new Vertex(-1.0f, -1.0f, 0.0f),
-             new Vertex(-1.0f, -1.0f, 0.0f),
+             new Vertex(-0.5f, -0.5f, 0.0f),
+             new Vertex(0.5f, -0.5f, 0.0f),             
+             new Vertex(0.5f,  0.5f, 0.0f),
+             new Vertex(-0.5f,  0.5f, 0.0f),
         };
 
         return new VAO(new Shape(vertices));
@@ -53,7 +53,7 @@ static class Game
 
     public static void Update()
     {
-        //triangleVAO.Draw();
+        triangleVAO.Draw();
         squareVAO.Draw();
     }
 
