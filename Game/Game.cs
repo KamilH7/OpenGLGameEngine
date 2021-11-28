@@ -10,7 +10,7 @@ static class Game
     public static void Start()
     {
         TimerController.AddTimer(1, SetRandomColor);
-        triangleVAO = GenerateTriangleVAO();
+        //triangleVAO = GenerateTriangleVAO();
         squareVAO = GenerateSquareVAO();
         SetBackgroundColor();
         SetRandomColor();
@@ -18,39 +18,35 @@ static class Game
 
     private static VAO GenerateSquareVAO()
     {
-        Square[] squares = new Square[1];
-
-        var vertices = new[] {
-             new Point(-1.0f, 1.0f, 0.0f),
-             new Point(1.0f, 1.0f, 0.0f),
-             new Point(1.0f, -1.0f, 0.0f),
-             new Point(-1.0f, -1.0f, 0.0f),
+        var vertices = new[] {           
+             new Vertex(1.0f, -1.0f, 0.0f),
+             new Vertex(1.0f, 1.0f, 0.0f),             
+             new Vertex(-1.0f, -1.0f, 0.0f),
+             new Vertex(-1.0f, -1.0f, 0.0f),
         };
 
-        squares[0] = new Square(vertices);
-
-        return new VAO(squares);
+        return new VAO(new Shape(vertices));
     }
 
     private static VAO GenerateTriangleVAO()
     {
-        Triangle[] triangles = new Triangle[2];
+        Shape[] triangles = new Shape[2];
 
         var vertices = new[] {
-        new Point(-0.5f, -0.5f * (float) Math.Sqrt(3) / 3, 0.0f), // Lower left corner
-		new Point(0.5f, -0.5f * (float) Math.Sqrt(3) / 3, 0.0f), // Lower right corner
-		new Point(-1.0f, 0.5f * (float) Math.Sqrt(3) * 2 / 3, 0.0f) // Upper corner
+        new Vertex(-0.5f, -0.5f * (float) Math.Sqrt(3) / 3, 0.0f), // Lower left corner
+		new Vertex(0.5f, -0.5f * (float) Math.Sqrt(3) / 3, 0.0f), // Lower right corner
+		new Vertex(-1.0f, 0.5f * (float) Math.Sqrt(3) * 2 / 3, 0.0f) // Upper corner
 	    };
 
-        triangles[0] = new Triangle(vertices);
+        triangles[0] = new Shape(vertices);
 
         var vertices2 = new[]{
-        new Point(-0.5f, -0.5f, 0.0f), // Lower left corner
-		new Point(0.5f, -0.5f, 0.0f), // Lower right corner
-		new Point(1.0f, 0.5f, 0.0f) // Upper corner
+        new Vertex(-0.5f, -0.5f, 0.0f), // Lower left corner
+		new Vertex(0.5f, -0.5f, 0.0f), // Lower right corner
+		new Vertex(1.0f, 0.5f, 0.0f) // Upper corner
 	    };
 
-        triangles[1] = new Triangle(vertices2);
+        triangles[1] = new Shape(vertices2);
 
         return new VAO(triangles);
     }

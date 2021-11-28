@@ -1,6 +1,6 @@
 ﻿namespace Geometry
 {
-    class Point
+    class Vertex
     {
         private float x, y, z;
 
@@ -9,7 +9,7 @@
         public float Z => z;
 
 
-        public Point(float x, float y, float z)
+        public Vertex(float x, float y, float z)
         {
             this.x = x;
             this.y = y;

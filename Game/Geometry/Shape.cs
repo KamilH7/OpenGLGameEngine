@@ -2,12 +2,17 @@
 {
     class Shape
     {
-        protected Point[] vertices;
-        public Point[] Vertices => vertices;
+        protected Vertex[] vertices;
+        public Vertex[] Vertices => vertices;
+
+        public Shape(Vertex[] vertices)
+        {
+            this.vertices = vertices;
+        }
 
         public virtual void Move(float x, float y, float z)
         {
-            foreach (Point point in vertices)
+            foreach (Vertex point in vertices)
             {
                 point.SetPosition(point.X + x, point.Y + y, point.Z + z);
             }
@@ -18,23 +23,23 @@
             float sumX = 0, sumY = 0, sumZ = 0;
             int numOfPoints = vertices.Length;
 
-            foreach (Point point in vertices)
+            foreach (Vertex point in vertices)
             {
                 sumX += point.X;
                 sumY += point.Y;
                 sumZ += point.Z;
             }
 
-            Point middlePoint = new Point(sumX / numOfPoints, sumY / numOfPoints, sumZ / numOfPoints);
+            Vertex middlePoint = new Vertex(sumX / numOfPoints, sumY / numOfPoints, sumZ / numOfPoints);
 
-            foreach (Point point in vertices)
+            foreach (Vertex point in vertices)
             {
                 point.SetPosition(point.X - middlePoint.X, point.Y - middlePoint.Y, point.Z - middlePoint.Z);
             }
 
             middlePoint.SetPosition(middlePoint.X + x, middlePoint.Y + y, middlePoint.Z + z);
 
-            foreach (Point point in vertices)
+            foreach (Vertex point in vertices)
             {
                 point.SetPosition(point.X + middlePoint.X, point.Y + middlePoint.Y, point.Z + middlePoint.Z);
             }

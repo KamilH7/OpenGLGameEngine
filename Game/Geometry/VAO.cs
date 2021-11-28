@@ -4,31 +4,37 @@ namespace Geometry
 {
     class VAO
     {
-        protected Shape[] shape;
+        protected Shape[] shapes;
         protected uint vao;
         protected uint[] vbo;
 
-        public VAO(Shape[] shape)
+        public VAO(Shape[] shapes)
         {
-            this.shape = shape;
+            this.shapes = shapes;
             GenerateVAO();
         }
 
-        protected static unsafe uint CreateVAO()
+        public VAO(Shape shape)
+        {
+            this.shapes = new Shape[] { shape };
+            GenerateVAO();
+        }
+
+        private void GenerateVAO()
+        {
+            vao = CreateVAO();
+            vbo = glGenBuffers(shapes.Length);
+
+            for (int i = 0; i < shapes.Length; i++)
+            {
+                AssignVerticesToVBO(vbo[i], shapes[i].Flatten());
+            }
+        }
+
+        private static unsafe uint CreateVAO()
         {
             var vao = glGenVertexArray();
             return vao;
-        }
-
-        protected void GenerateVAO()
-        {
-            vao = CreateVAO();
-            vbo = glGenBuffers(shape.Length);
-
-            for (int i = 0; i < shape.Length; i++)
-            {
-                AssignVerticesToVBO(vbo[i], shape[i].Flatten());
-            }
         }
 
         private unsafe void AssignVerticesToVBO(uint vbo, float[] vertices)
@@ -42,20 +48,22 @@ namespace Geometry
 
             glBindBuffer(GL_ARRAY_BUFFER, 0);
         }
+
         public unsafe void Draw()
         {
-            for(int i =0; i< vbo.Length; i++) {
-
+            for (int i = 0; i < vbo.Length; i++)
+            {
                 glBindVertexArray(vao);
 
                 glBindBuffer(GL_ARRAY_BUFFER, vbo[i]);
-                glVertexAttribPointer(0, 3, GL_FLOAT, false, shape[i].Vertices.Length * sizeof(float), NULL);
+                glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), NULL);
                 glEnableVertexAttribArray(0);
-                glDrawArrays(GL_TRIANGLE_STRIP, 0, shape[i].Vertices.Length);
+                glDrawArrays(GL_TRIANGLES, 0, shapes[i].Vertices.Length);
 
                 glBindVertexArray(0);
             }
         }
+
         public void Move()
         {
 
