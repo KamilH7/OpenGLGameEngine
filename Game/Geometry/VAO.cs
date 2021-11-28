@@ -58,7 +58,7 @@ namespace Geometry
                 glBindBuffer(GL_ARRAY_BUFFER, vbo[i]);
                 glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), NULL);
                 glEnableVertexAttribArray(0);
-                glDrawArrays(GL_TRIANGLES, 0, shapes[i].Vertices.Length);
+                glDrawArrays(GL_TRIANGLE_FAN, 0, shapes[i].Vertices.Length);
 
                 glBindVertexArray(0);
             }
