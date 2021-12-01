@@ -1,7 +1,11 @@
-﻿namespace Geometry
+﻿using System.Numerics;
+using System;
+
+namespace Geometry
 {
     class Shape
     {
+        public event Action Moved;
         protected Vertex[] vertices;
         public Vertex[] Vertices => vertices;
 
@@ -12,6 +16,8 @@
 
         public virtual void Move(float x, float y, float z)
         {
+            Moved?.Invoke();
+
             foreach (Vertex point in vertices)
             {
                 point.SetPosition(point.X + x, point.Y + y, point.Z + z);
@@ -20,6 +26,8 @@
 
         public virtual void SetPosition(float x, float y, float z)
         {
+            Moved.Invoke();
+
             float sumX = 0, sumY = 0, sumZ = 0;
             int numOfPoints = vertices.Length;
 
@@ -30,14 +38,14 @@
                 sumZ += point.Z;
             }
 
-            Vertex middlePoint = new Vertex(sumX / numOfPoints, sumY / numOfPoints, sumZ / numOfPoints);
+            Vector3 middlePoint = new Vector3(sumX / numOfPoints, sumY / numOfPoints, sumZ / numOfPoints);
 
             foreach (Vertex point in vertices)
             {
                 point.SetPosition(point.X - middlePoint.X, point.Y - middlePoint.Y, point.Z - middlePoint.Z);
             }
 
-            middlePoint.SetPosition(middlePoint.X + x, middlePoint.Y + y, middlePoint.Z + z);
+            middlePoint = new Vector3(middlePoint.X + x, middlePoint.Y + y, middlePoint.Z + z);
 
             foreach (Vertex point in vertices)
             {
@@ -47,7 +55,7 @@
 
         public float[] Flatten()
         {
-            float[] flatArray = new float[vertices.Length * 3];
+            float[] flatArray = new float[vertices.Length * Config.VertexStride];
 
             for (int i = 0; i < flatArray.Length; i++)
             {
@@ -59,8 +67,8 @@
 
         private float GetValue(int index)
         {
-            int vertNumber = index / 3;
-            int coordinateNumber = index % 3;
+            int vertNumber = index / Config.VertexStride;
+            int coordinateNumber = index % Config.VertexStride;
 
             switch (coordinateNumber)
             {

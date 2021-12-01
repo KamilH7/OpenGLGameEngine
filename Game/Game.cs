@@ -16,16 +16,19 @@ static class Game
         SetRandomColor();
     }
 
+    static Shape Square;
+
     private static VAO GenerateSquareVAO()
     {
-        var vertices = new[] {           
-             new Vertex(-0.5f, -0.5f, 0.0f),
-             new Vertex(0.5f, -0.5f, 0.0f),             
-             new Vertex(0.5f,  0.5f, 0.0f),
-             new Vertex(-0.5f,  0.5f, 0.0f),
+        var vertices = new[] {
+             new Vertex(new float[]{-0.5f, -0.5f, 0.0f }),
+             new Vertex(new float[]{0.5f, -0.5f, 0.0f}),
+             new Vertex(new float[]{0.5f,  0.5f, 0.0f}),
+             new Vertex(new float[]{-0.5f,  0.5f, 0.0f}),
         };
 
-        return new VAO(new Shape(vertices));
+        Square = new Shape(vertices);
+        return new VAO(Square);
     }
 
     private static VAO GenerateTriangleVAO()
@@ -33,17 +36,17 @@ static class Game
         Shape[] triangles = new Shape[2];
 
         var vertices = new[] {
-        new Vertex(-0.5f, -0.5f * (float) Math.Sqrt(3) / 3, 0.0f), // Lower left corner
-		new Vertex(0.5f, -0.5f * (float) Math.Sqrt(3) / 3, 0.0f), // Lower right corner
-		new Vertex(-1.0f, 0.5f * (float) Math.Sqrt(3) * 2 / 3, 0.0f) // Upper corner
+        new Vertex(new float[]{-0.5f, -0.5f * (float) Math.Sqrt(3) / 3, 0.0f }), // Lower left corner
+		new Vertex(new float[]{0.5f, -0.5f * (float) Math.Sqrt(3) / 3, 0.0f }), // Lower right corner
+		new Vertex(new float[]{-1.0f, 0.5f * (float) Math.Sqrt(3) * 2 / 3, 0.0f }) // Upper corner
 	    };
 
         triangles[0] = new Shape(vertices);
 
         var vertices2 = new[]{
-        new Vertex(-0.5f, -0.5f, 0.0f), // Lower left corner
-		new Vertex(0.5f, -0.5f, 0.0f), // Lower right corner
-		new Vertex(1.0f, 0.5f, 0.0f) // Upper corner
+        new Vertex(new float[]{-0.5f, -0.5f, 0.0f }), // Lower left corner
+		new Vertex(new float[]{0.5f, -0.5f, 0.0f }), // Lower right corner
+		new Vertex(new float[]{1.0f, 0.5f, 0.0f }) // Upper corner
 	    };
 
         triangles[1] = new Shape(vertices2);
@@ -55,6 +58,8 @@ static class Game
     {
         triangleVAO.Draw();
         squareVAO.Draw();
+        Square.Move((float)(-0.2 * DeltaTime.Time), (float)(0.2 * DeltaTime.Time), 0);
+
     }
 
     private static Random rand = new Random();

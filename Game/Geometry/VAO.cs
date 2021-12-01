@@ -28,7 +28,31 @@ namespace Geometry
             for (int i = 0; i < shapes.Length; i++)
             {
                 AssignVerticesToVBO(vbo[i], shapes[i].Flatten());
+                shapes[i].Moved += RegenerateVAO;
             }
+        }
+
+        private void RegenerateVAO()
+        {
+            ClearData();
+
+            vao = CreateVAO();
+            vbo = glGenBuffers(shapes.Length);
+
+            for (int i = 0; i < shapes.Length; i++)
+            {
+                AssignVerticesToVBO(vbo[i], shapes[i].Flatten());
+            }
+        }
+
+        private void ClearData()
+        {
+            foreach(uint v in vbo)
+            {
+                glDeleteBuffer(v);
+            }
+
+            glDeleteVertexArray(vao);
         }
 
         private static unsafe uint CreateVAO()
@@ -56,7 +80,7 @@ namespace Geometry
                 glBindVertexArray(vao);
 
                 glBindBuffer(GL_ARRAY_BUFFER, vbo[i]);
-                glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), NULL);
+                glVertexAttribPointer(0, Config.VertexStride, GL_FLOAT, false, Config.VertexStride * sizeof(float), NULL);
                 glEnableVertexAttribArray(0);
                 glDrawArrays(GL_TRIANGLE_FAN, 0, shapes[i].Vertices.Length);
 
@@ -65,11 +89,6 @@ namespace Geometry
         }
 
         public void Move()
-        {
-
-        }
-
-        public void SetPosition()
         {
 
         }

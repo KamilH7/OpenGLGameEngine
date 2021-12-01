@@ -3,6 +3,7 @@ using System.Numerics;
 
 static class Config
 {
+    public static readonly int VertexStride = 3;
     public static readonly string VertexShaderPath = @"/Shaders/VertexShader.shader";
     public static readonly string FragmentShaderPath = @"/Shaders/FragmentShader.shader";
 
